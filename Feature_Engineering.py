@@ -1,10 +1,6 @@
 import pandas as pd
-import numpy as np
-import sklearn
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 # to show all columns and rows when print ,head(10)
@@ -95,7 +91,7 @@ arrival_raw_dayparts = train_data['Scheduled arrival time'].dt.hour.apply(daypar
 depature_raw_dayparts = train_data['Scheduled depature time'].dt.hour.apply(daypart)
 #
 depature_dayparts  = pd.get_dummies(depature_raw_dayparts).rename(
-    columns={'afternoon': 'depature_Friday', 'dawn': 'depature_Monday', 'evening': 'arrival_Saturday',
+    columns={'afternoon': 'depature_afternoon', 'dawn': 'depature_dawn', 'evening': 'arrival_evening',
              'midnight': 'depature_midnight', 'morning': 'depature_morning', 'noon': 'depature_noon'})
 arrival_dayparts = pd.get_dummies(arrival_raw_dayparts).rename(
     columns={'afternoon': 'arrival_afternoon', 'dawn': 'arrival_dawn', 'evening': 'arrival_evening',
@@ -127,7 +123,10 @@ print(y_train.shape)
 print(y_test.shape)
 
 # print(y_test.head(100))
-
+imputer = SimpleImputer(strategy='most_frequent')
+imputer.fit(x_train)
+x_train = pd.DataFrame(imputer.transform(x_train), columns=x_train.columns)
+x_test = pd.DataFrame(imputer.transform(x_test), columns=x_test.columns)
 
 # One-hot-encoding of categorical feature
 encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
@@ -148,10 +147,10 @@ x_test = ohe_new_features(x_test, cat_feats, encoder)
 
 x_train_types = x_train.dtypes
 print("Number categorical featues:", sum(types == 'object'))
-print(x_train_types)
+# print(x_train_types)
 
 x_test_types = x_test.dtypes
 print("Number categorical featues:", sum(types == 'object'))
-print(x_test_types)
+# print(x_test_types)
 
 # print(x_train.head(100))
