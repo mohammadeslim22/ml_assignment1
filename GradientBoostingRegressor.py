@@ -26,6 +26,7 @@ print(eval_df)
 # define MAPE function
 def mape(true, predicted):
     inside_sum = np.abs(predicted - true) / true
+    return round(100 * np.sum(inside_sum) / inside_sum.size, 2)
 
 
 #print(f"GB model MSE is {round(mean_squared_error(y_true, y_pred),2)}")
