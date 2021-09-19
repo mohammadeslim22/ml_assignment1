@@ -70,8 +70,6 @@ print("_______________________arrival days___________________________________")
 print(arrival_days.head(3))
 
 
-
-
 def daypart(hour):
     if hour in [2, 3, 4, 5]:
         return "dawn"
@@ -90,7 +88,7 @@ def daypart(hour):
 arrival_raw_dayparts = train_data['Scheduled arrival time'].dt.hour.apply(daypart)
 depature_raw_dayparts = train_data['Scheduled depature time'].dt.hour.apply(daypart)
 #
-depature_dayparts  = pd.get_dummies(depature_raw_dayparts).rename(
+depature_dayparts = pd.get_dummies(depature_raw_dayparts).rename(
     columns={'afternoon': 'depature_afternoon', 'dawn': 'depature_dawn', 'evening': 'arrival_evening',
              'midnight': 'depature_midnight', 'morning': 'depature_morning', 'noon': 'depature_noon'})
 arrival_dayparts = pd.get_dummies(arrival_raw_dayparts).rename(
@@ -101,13 +99,12 @@ print(arrival_dayparts.head(3))
 print("_______________________depature dayparts___________________________________")
 print(depature_dayparts.head(3))
 
-
 train_data = train_data.drop(['Scheduled arrival time', 'Scheduled depature time'], axis=1)
 print(train_data.head(3))
 
-
-frames = [train_data,depature_years, depature_months, depature_day_of_months, depature_hours, depature_days,depature_dayparts,arrival_years, arrival_months,
-          arrival_day_of_months, arrival_hours, arrival_days,arrival_dayparts]
+frames = [train_data, depature_years, depature_months, depature_day_of_months, depature_hours, depature_days,
+          depature_dayparts, arrival_years, arrival_months,
+          arrival_day_of_months, arrival_hours, arrival_days, arrival_dayparts]
 
 print("_______________________ final data frame  ___________________________________")
 train_data = pd.concat(frames, axis=1)
@@ -117,14 +114,15 @@ print(train_data.head(3))
 x_train, x_test, y_train, y_test = train_test_split(train_data.drop(['Delay'], axis=1), train_data['Delay'],
                                                     test_size=0.2)
 
-print(x_train.shape)
-print(x_test.shape)
-print(y_train.shape)
-print(y_test.shape)
+# print("x_train.shape",x_train.shape)
+# print("x_test.shape",x_test.shape)
+# print("y_train.shape",y_train.shape)
+# print("y_test.shape",y_test.shape)
 
 # print(y_test.head(100))
 imputer = SimpleImputer(strategy='most_frequent')
 imputer.fit(x_train)
+# train_data = pd.DataFrame(imputer.transform(train_data), columns=train_data.columns)
 x_train = pd.DataFrame(imputer.transform(x_train), columns=x_train.columns)
 x_test = pd.DataFrame(imputer.transform(x_test), columns=x_test.columns)
 
@@ -151,6 +149,10 @@ print("Number categorical featues:", sum(types == 'object'))
 
 x_test_types = x_test.dtypes
 print("Number categorical featues:", sum(types == 'object'))
-# print(x_test_types)
 
+# print(x_test_types)
+print("x_train.shape", x_train.shape)
+print("x_test.shape", x_test.shape)
+print("y_train.shape", y_train.shape)
+print("y_test.shape", y_test.shape)
 # print(x_train.head(100))

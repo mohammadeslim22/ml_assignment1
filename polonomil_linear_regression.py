@@ -11,17 +11,17 @@ import Feature_Engineering
 def sinusoidal(X):
     return np.cos(1.5 * np.pi * X)
 
-np.random.seed(0)
+# np.random.seed(0)
+#
+# n_samples = 30
+# X = np.sort(np.random.rand(n_samples))
+# y = sinusoidal(X) + np.random.randn(n_samples) * 0.1
+#
+#
+# print(type(X))
+# print(X)
 
-n_samples = 30
-X = np.sort(np.random.rand(n_samples))
-y = sinusoidal(X) + np.random.randn(n_samples) * 0.1
-
-
-print(type(X))
-print(X)
-
-plt.scatter(X,y,label="Samples")
+plt.scatter(Feature_Engineering.x_train[0],Feature_Engineering.y_train,label="Samples")
 plt.title('synthetic dataset')
 plt.xlabel('X')
 plt.ylabel('Y')
@@ -39,16 +39,16 @@ for i in range(len(degrees)):
     linear_regression = LinearRegression()
     pipeline = Pipeline([("polynomial_features", polynomial_features),
                          ("linear_regression", linear_regression)])
-    pipeline.fit(X[:, np.newaxis], y)
+    pipeline.fit(Feature_Engineering.x_train[:, np.newaxis], Feature_Engineering.y_train)
 
     # Evaluate the models using crossvalidation
-    scores = cross_val_score(pipeline, X[:, np.newaxis], y,
+    scores = cross_val_score(pipeline, Feature_Engineering.x_train[:, np.newaxis], Feature_Engineering.y_train,
                              scoring="neg_mean_squared_error", cv=10)
 
     x_test = np.linspace(0, 1, 100)
     plt.plot(x_test, pipeline.predict(x_test[:, np.newaxis]), label="Model")
     plt.plot(x_test, sinusoidal(x_test), label="True function")
-    plt.scatter(X, y, edgecolor='b', s=20, label="Samples")
+    plt.scatter(Feature_Engineering.x_train, Feature_Engineering.y_train, edgecolor='b', s=20, label="Samples")
     plt.xlabel("x")
     plt.ylabel("y")
     plt.xlim((0, 1))

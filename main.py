@@ -1,0 +1,7 @@
+import Linear_Regression
+import GradientBoostingRegressor
+import random_forest
+
+Linear_Regression.AcitvateLinearRegression()
+random_forest.AcitvateRandomForest()
+GradientBoostingRegressor.ActivateGradientBoostingRegressor()
