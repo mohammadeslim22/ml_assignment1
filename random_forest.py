@@ -20,3 +20,6 @@ def AcitvateRandomForest():
     print('Mean Squared Error:', metrics.mean_squared_error(Feature_Engineering.y_test, y_pred))
     print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(Feature_Engineering.y_test, y_pred)))
     sklearn.metrics.r2_score(Feature_Engineering.y_test, y_pred, sample_weight=None, multioutput='uniform_average')
+
+
+AcitvateRandomForest()

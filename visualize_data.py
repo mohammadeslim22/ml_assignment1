@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sklearn
+import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib import style
 from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures
@@ -8,6 +9,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import MinMaxScaler
 # import mplcyberpunk
 # style.use('cyberpunk')
+from ml_assignment1 import Feature_Engineering
 
 train_data = pd.read_csv('./flight_delay.csv')
 print(train_data.describe())
@@ -38,11 +40,21 @@ print(train_data.describe())
 #
 # plt.show()
 
-plt.stem(train_data['Destination Airport'], train_data['Delay'],use_line_collection="true")
-plt.title('Destination Airport vs Delay', color = 'black')
-plt.xlabel('Destination Airport', color = 'black')
-plt.ylabel('Delay', color = 'black')
-plt.xticks(color = 'black')
-plt.yticks(color = 'black')
-plt.savefig('lollipop.png')
+# plt.stem(train_data['Destination Airport'], train_data['Delay'],use_line_collection="true")
+# plt.title('Destination Airport vs Delay', color = 'black')
+# plt.xlabel('Destination Airport', color = 'black')
+# plt.ylabel('Delay', color = 'black')
+# plt.xticks(color = 'black')
+# plt.yticks(color = 'black')
+# plt.savefig('Destination Airport Steam.png')
+# plt.show()
+
+sns.boxplot(train_data['Delay'])
+
+
+plt.figure(figsize=(16,5))
+plt.subplot(1,2,1)
+sns.distplot(train_data['Delay'])
+plt.subplot(1,2,2)
+sns.distplot(Feature_Engineering.x_train[1])
 plt.show()
