@@ -11,7 +11,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 train_data = pd.read_csv('./flight_delay.csv')
-train_data=removeOutliers(train_data)
+# train_data=removeOutliers(train_data)
 types = train_data.dtypes
 print("Number categorical featues:", sum(types == 'object'))
 print(types)
@@ -23,6 +23,14 @@ convert string objects of 'depature time' & 'arrival time' to datetime data type
 train_data['Scheduled depature time'] = pd.to_datetime(train_data['Scheduled depature time'])
 train_data['Scheduled arrival time'] = pd.to_datetime(train_data['Scheduled arrival time'])
 print(train_data.head(3))
+
+
+# adding new feature to the data ( flight duration )
+flight_duration = train_data['Scheduled arrival time']-train_data['Scheduled depature time']
+flight_duration = flight_duration.dt.total_seconds()/3600
+train_data['flight duration'] = flight_duration
+
+
 # convert time for departure
 depature_years = pd.DataFrame(train_data['Scheduled depature time'].dt.year).rename(
     columns={'Scheduled depature time': 'scheduled_depature_year'})

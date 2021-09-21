@@ -11,11 +11,22 @@ from sklearn.preprocessing import PolynomialFeatures
 
 x_train = np.asarray(Feature_Engineering.x_train).astype(np.float32)
 y_train = np.asarray(Feature_Engineering.y_train).astype(np.float32)
-y_test = np.asanyarray(Feature_Engineering.y_test)
+y_test = np.asarray(Feature_Engineering.y_test).astype(np.float32)
 x_test = np.asarray(Feature_Engineering.x_test).astype(np.float32)
+
+# x_train = x_train.reshape(-1, 1)
+# x_test = x_test.reshape(-1, 1)
+# y_train = y_train.reshape(-1, 1)
+# y_test = y_test.reshape(-1, 1)
+
+print("x_train.shape", x_train.shape)
+print("x_test.shape", x_test.shape)
+print("y_train.shape", y_train.shape)
+print("y_test.shape", y_test.shape)
+
 # y_train=np.asanyarray(Feature_Engineering.y_train)
-poly = PolynomialFeatures(degree=1)
-train_x_poly = poly.fit_transform(Feature_Engineering.x_train)
+poly = PolynomialFeatures(degree=2)
+train_x_poly = poly.fit_transform(x_train)
 print(train_x_poly)
 
 clf = LinearRegression()
@@ -24,7 +35,7 @@ y_train_ = clf.fit(train_x_poly, y_train)
 print('Coefficients: ', clf.coef_)
 print('Intercept: ', clf.intercept_)
 
-test_x_poly = poly.fit_transform(Feature_Engineering.x_test)
+test_x_poly = poly.fit_transform(x_test)
 test_y_ = clf.predict(test_x_poly)
 
 # print("Mean absolute error: %.2f" % np.mean(np.absolute(test_y_ - y_test)))

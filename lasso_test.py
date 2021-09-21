@@ -2,8 +2,6 @@ import matplotlib.pylab as plt
 import numpy as np
 from sklearn.metrics import mean_squared_error
 import Feature_Engineering
-
-
 from sklearn.linear_model import Lasso, Ridge
 
 lasso = Lasso()
@@ -18,7 +16,7 @@ print("Ridge Coefficient", ridge.coef_)
 alphas = [-2.2, -2, -1.5, 1.3, 1.2, 1.1, 1, 0.3, 0.1]
 losses = []
 for alpha in alphas:
-    # Write (5 lines): create a Lasso regressor with the alpha value.
+    # create a Lasso regressor with the alpha value.
     # Fit it to the training set, then get the prediction of the validation set (x_val).
     # calculate the mean sqaured error loss, then append it to the losses array
     lasso = Lasso(alpha=alpha)

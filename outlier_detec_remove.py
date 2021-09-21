@@ -1,40 +1,38 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 train_data = pd.read_csv('./flight_delay.csv')
 
-def removeOutliers(datafframe):
+
+def removeOutliers(dataframe):
     print("---------------------- before editing------------------- ")
-    print(datafframe['Delay'].std())
-    print(datafframe['Delay'].mean())
-    print("Highest allowed",datafframe['Delay'].mean() + 3*datafframe['Delay'].std())
-    print("Lowest allowed",datafframe['Delay'].mean() - 3*datafframe['Delay'].std())
-    print(datafframe['Delay'].describe())
-    print(train_data[(train_data['Delay'] > 144.6) | (train_data['Delay'] < -124.77)])
+    print(dataframe['Delay'].std())
+    print(dataframe['Delay'].mean())
+    print("Highest allowed", dataframe['Delay'].mean() + 3 * dataframe['Delay'].std())
+    print("Lowest allowed", dataframe['Delay'].mean() - 3 * dataframe['Delay'].std())
+    print(dataframe['Delay'].describe())
+    upper_limit = dataframe['Delay'].mean() + 3 * dataframe['Delay'].std()
+    lower_limit = dataframe['Delay'].mean() - 3 * dataframe['Delay'].std()
+    print(train_data[(train_data['Delay'] > upper_limit) | (train_data['Delay'] < lower_limit)])
     print(train_data.shape)
     print("---------------------- after editing------------------- ")
-    upper_limit = datafframe['Delay'].mean() + 3 * datafframe['Delay'].std()
-    lower_limit = datafframe['Delay'].mean() - 3 * datafframe['Delay'].std()
-    new_train_data = datafframe[(datafframe['Delay'] < upper_limit) & (datafframe['Delay'] > lower_limit)]
-    print(datafframe.shape)
-    print(datafframe['Delay'].describe())
+
+    new_train_data = dataframe[(dataframe['Delay'] < upper_limit) & (dataframe['Delay'] > lower_limit)]
+    print(dataframe.shape)
+    print(dataframe['Delay'].describe())
     print(new_train_data['Delay'].describe())
 
-    upper_limit = datafframe['Delay'].mean() + 3*datafframe['Delay'].std()
-    lower_limit = datafframe['Delay'].mean() - 3*datafframe['Delay'].std()
+    # Other way to crop the data frame
 
-    datafframe['Delay'] = np.where(
-        datafframe['Delay']>upper_limit,
+    dataframe['Delay'] = np.where(
+        dataframe['Delay'] > upper_limit,
         upper_limit,
         np.where(
-            datafframe['Delay']<lower_limit,
+            dataframe['Delay'] < lower_limit,
             lower_limit,
-            datafframe['Delay']
+            dataframe['Delay']
         )
     )
-    print("------4")
-    print(datafframe['Delay'].describe())
+    print(dataframe['Delay'].describe())
     return new_train_data
