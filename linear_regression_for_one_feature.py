@@ -6,9 +6,9 @@ import numpy as np
 import sklearn
 
 
-y_test=Feature_Engineering.test['Delay']/60
+y_test=Feature_Engineering.test['Delay']
 x_test=Feature_Engineering.test[['flight duration']]
-y_train=Feature_Engineering.train['Delay']/60
+y_train=Feature_Engineering.train['Delay']
 x_train=Feature_Engineering.train[['flight duration']]
 
 x_train=np.asarray(x_train).astype(np.float32)

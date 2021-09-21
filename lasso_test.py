@@ -3,7 +3,8 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 import Feature_Engineering
 from sklearn.linear_model import Lasso, Ridge
-
+from sklearn import metrics
+import sklearn
 lasso = Lasso()
 ridge = Ridge()
 lasso.fit(Feature_Engineering.x_train, Feature_Engineering.y_train)
@@ -37,4 +38,8 @@ print("Best value of alpha:", best_alpha)
 lasso = Lasso(best_alpha)
 lasso.fit(Feature_Engineering.x_train, Feature_Engineering.y_train)
 y_pred = lasso.predict(Feature_Engineering.x_test)
-print("MSE on testset:", mean_squared_error(Feature_Engineering.y_test, y_pred))
+
+print('Mean Absolute Error:', metrics.mean_absolute_error(Feature_Engineering.y_test, y_pred))
+print('Mean Squared Error:', metrics.mean_squared_error(Feature_Engineering.y_test, y_pred))
+print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(Feature_Engineering.y_test, y_pred)))
+sklearn.metrics.r2_score(Feature_Engineering.y_test, y_pred, sample_weight=None, multioutput='uniform_average')
