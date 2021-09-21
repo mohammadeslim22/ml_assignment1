@@ -11,7 +11,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 train_data = pd.read_csv('./flight_delay.csv')
-# train_data=removeOutliers(train_data)
+train_data=removeOutliers(train_data)
 types = train_data.dtypes
 print("Number categorical featues:", sum(types == 'object'))
 print(types)
@@ -24,12 +24,10 @@ train_data['Scheduled depature time'] = pd.to_datetime(train_data['Scheduled dep
 train_data['Scheduled arrival time'] = pd.to_datetime(train_data['Scheduled arrival time'])
 print(train_data.head(3))
 
-
 # adding new feature to the data ( flight duration )
-flight_duration = train_data['Scheduled arrival time']-train_data['Scheduled depature time']
-flight_duration = flight_duration.dt.total_seconds()/3600
+flight_duration = train_data['Scheduled arrival time'] - train_data['Scheduled depature time']
+flight_duration = flight_duration.dt.total_seconds() / 60
 train_data['flight duration'] = flight_duration
-
 
 # convert time for departure
 depature_years = pd.DataFrame(train_data['Scheduled depature time'].dt.year).rename(
@@ -121,9 +119,17 @@ print("_______________________ final data frame  _______________________________
 train_data = pd.concat(frames, axis=1)
 
 print(train_data.head(3))
+
 # splitting the data
-x_train, x_test, y_train, y_test = train_test_split(train_data.drop(['Delay'], axis=1), train_data['Delay'],
-                                                    test_size=0.2)
+
+train = train_data.loc[train_data['scheduled_depature_year'] < 2018]
+test = train_data.loc[train_data['scheduled_depature_year'] == 2018]
+
+
+y_test=test['Delay']
+x_test=test.drop(['Delay'], axis=1)
+y_train=train['Delay']
+x_train=train.drop(['Delay'], axis=1)
 
 # print("x_train.shape",x_train.shape)
 # print("x_test.shape",x_test.shape)

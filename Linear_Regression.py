@@ -22,6 +22,11 @@ def AcitvateLinearRegression():
     print(Feature_Engineering.x_train.head(3))
     print("_______________________________")
     print(Feature_Engineering.y_train.head(3))
+    # XX = np.arange(0.0, 10.0, 0.1)
+    # yy = regressor.intercept_[0] + regressor.coef_[0] * XX
+    # plt.plot(XX, yy, '-r')
+    # plt.xlabel("Flight Duration")
+    # plt.ylabel("Delay")
     plt.scatter(Feature_Engineering.x_train[0], Feature_Engineering.y_train)
     # m, b = np.polyfit(Feature_Engineering.x_test[0], y_pred, 1)
     # plt.plot(Feature_Engineering.x_test[0], m * Feature_Engineering.x_test[0] + b)
