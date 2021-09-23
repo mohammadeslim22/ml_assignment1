@@ -46,7 +46,7 @@ def ActivatePolynomialRegression():
     print('Mean Absolute Error:', metrics.mean_absolute_error(Feature_Engineering.y_test, test_y_))
     print('Mean Squared Error:', metrics.mean_squared_error(Feature_Engineering.y_test, test_y_))
     print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(Feature_Engineering.y_test, test_y_)))
-    sklearn.metrics.r2_score(Feature_Engineering.y_test, test_y_, sample_weight=None, multioutput='uniform_average')
+    print('r2_score',sklearn.metrics.r2_score(Feature_Engineering.y_test, test_y_, sample_weight=None, multioutput='uniform_average'))
 
 
 # x = Feature_Engineering.x_train

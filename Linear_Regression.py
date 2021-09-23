@@ -36,6 +36,6 @@ def AcitvateLinearRegression():
     print('Mean Absolute Error:', metrics.mean_absolute_error(Feature_Engineering.y_test, y_pred))
     print('Mean Squared Error:', metrics.mean_squared_error(Feature_Engineering.y_test, y_pred))
     print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(Feature_Engineering.y_test, y_pred)))
-    sklearn.metrics.r2_score(Feature_Engineering.y_test, y_pred, sample_weight=None, multioutput='uniform_average')
+    print('r2_score',sklearn.metrics.r2_score(Feature_Engineering.y_test, y_pred, sample_weight=None, multioutput='uniform_average'))
 
 AcitvateLinearRegression()

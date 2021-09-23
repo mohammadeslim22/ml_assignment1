@@ -5,13 +5,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import RobustScaler
 from sklearn.preprocessing import OrdinalEncoder
 
-from ml_assignment1.outlier_detec_remove import removeOutliers
+import outlier_detec_remove
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 train_data = pd.read_csv('./flight_delay.csv')
-train_data=removeOutliers(train_data)
+train_data=outlier_detec_remove.removeOutliers(train_data)
 types = train_data.dtypes
 print("Number categorical featues:", sum(types == 'object'))
 print(types)
@@ -120,6 +120,28 @@ train_data = pd.concat(frames, axis=1)
 
 print(train_data.head(3))
 
+def ohe_new_features(df, features_name, encoder):
+    new_feats = encoder.transform(df[features_name])
+    new_cols = pd.DataFrame(new_feats, dtype=int)
+    new_df = pd.concat([df, new_cols], axis=1)
+    new_df.drop(features_name, axis=1, inplace=True)
+    return new_df
+
+
+imputer = SimpleImputer(strategy='most_frequent')
+
+
+imputer.fit(train_data)
+# train_data = pd.DataFrame(imputer.transform(train_data), columns=train_data.columns)
+train_data = pd.DataFrame(imputer.transform(train_data), columns=train_data.columns)
+
+
+encoder = OrdinalEncoder()
+cat_feats = ['Depature Airport', 'Destination Airport']
+encoder.fit(train_data[cat_feats])
+
+train_data = ohe_new_features(train_data, cat_feats, encoder)
+
 # splitting the data
 
 train = train_data.loc[train_data['scheduled_depature_year'] < 2018]
@@ -131,22 +153,15 @@ x_test=test.drop(['Delay'], axis=1)
 y_train=train['Delay']
 x_train=train.drop(['Delay'], axis=1)
 
-# print("x_train.shape",x_train.shape)
-# print("x_test.shape",x_test.shape)
-# print("y_train.shape",y_train.shape)
-# print("y_test.shape",y_test.shape)
+# imputer.fit(x_train)
+# # train_data = pd.DataFrame(imputer.transform(train_data), columns=train_data.columns)
+# x_train = pd.DataFrame(imputer.transform(x_train), columns=x_train.columns)
+# imputer.fit(x_test)
+# x_test = pd.DataFrame(imputer.transform(x_test), columns=x_test.columns)
 
-# print(y_test.head(100))
-imputer = SimpleImputer(strategy='most_frequent')
-imputer.fit(x_train)
-# train_data = pd.DataFrame(imputer.transform(train_data), columns=train_data.columns)
-x_train = pd.DataFrame(imputer.transform(x_train), columns=x_train.columns)
-imputer.fit(x_test)
-x_test = pd.DataFrame(imputer.transform(x_test), columns=x_test.columns)
-
-encoder = OrdinalEncoder()
-cat_feats = ['Depature Airport', 'Destination Airport']
-encoder.fit(train_data[cat_feats])
+# encoder = OrdinalEncoder()
+# cat_feats = ['Depature Airport', 'Destination Airport']
+# encoder.fit(train_data[cat_feats])
 
 
 # One-hot-encoding of categorical feature
@@ -155,16 +170,11 @@ encoder.fit(train_data[cat_feats])
 # encoder.fit(x_train[cat_feats])
 
 
-def ohe_new_features(df, features_name, encoder):
-    new_feats = encoder.transform(df[features_name])
-    new_cols = pd.DataFrame(new_feats, dtype=int)
-    new_df = pd.concat([df, new_cols], axis=1)
-    new_df.drop(features_name, axis=1, inplace=True)
-    return new_df
 
 
-x_train = ohe_new_features(x_train, cat_feats, encoder)
-x_test = ohe_new_features(x_test, cat_feats, encoder)
+
+# x_train = ohe_new_features(x_train, cat_feats, encoder)
+# x_test = ohe_new_features(x_test, cat_feats, encoder)
 
 x_trian_cols = x_train.columns
 x_test_cols = x_test.columns

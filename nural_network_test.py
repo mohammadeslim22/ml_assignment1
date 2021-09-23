@@ -23,6 +23,6 @@ def ActivateNeuralNetwork():
     print('Mean Absolute Error:', metrics.mean_absolute_error(Feature_Engineering.y_test, predicted))
     print('Mean Squared Error:', metrics.mean_squared_error(Feature_Engineering.y_test, predicted))
     print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(Feature_Engineering.y_test, predicted)))
-    sklearn.metrics.r2_score(Feature_Engineering.y_test, predicted, sample_weight=None, multioutput='uniform_average')
+    print('r2_score',sklearn.metrics.r2_score(Feature_Engineering.y_test, predicted, sample_weight=None, multioutput='uniform_average'))
 
 ActivateNeuralNetwork()
